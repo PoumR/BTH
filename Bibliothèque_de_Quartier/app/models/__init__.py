@@ -1,6 +1,6 @@
 # mon_app/models/__init__.py
-# from .order import Order
-# from .product import Product
+from .genre import Genre
+from .livre import Livre
 
 # __all__ = ["Order", "Product"]
-__all__ = ["Genres", "Livres","Reservations","Emprunteurs"]
+__all__ = ["Genre", "Livre"]
