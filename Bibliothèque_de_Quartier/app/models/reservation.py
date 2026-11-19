@@ -1,12 +1,20 @@
 from django.db import models
 from django.conf import settings
+from .livre import Livre
 
 # Creation Modele Reservation
 class Reservation(models.Model):
-    Emprunteur = models.ForeignKey(
+    emprunteur = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name="reservations",
     )
-    Etat = models.CharField(max_length=50)
-    Date_Creation = models.DateField(auto_now_add=True)
-    Date_Modification = models.DateField(auto_now=True)
+    livre = models.ForeignKey(
+            Livre,
+            on_delete=models.PROTECT,
+            related_name="reservations",
+        )
+    
+    etat = models.CharField(max_length=50)
+    date_Creation = models.DateField(auto_now_add=True)
+    date_Modification = models.DateField(auto_now=True)

@@ -3,13 +3,13 @@ from django.contrib.auth.models import AbstractUser
 
 #Creation Modele Emprunteur
 class Emprunteur(AbstractUser):
+    class Roles(models.TextChoices):
+        GESTIONNAIRE = "gestionnaire", "Gestionnaire"
+        ADHERENT = "adhérent", "Adhérent"
     # Supprimer les champs d'origine
     first_name = None
     last_name = None
 
-    class Roles(models.TextChoices):
-        GESTIONNAIRE = "gestionnaire", "Gestionnaire"
-        ADHERENT = "adhérent", "Adhérent"
 
 
     # Créer les nouveaux champs

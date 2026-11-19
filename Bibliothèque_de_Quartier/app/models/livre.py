@@ -12,7 +12,7 @@ class Livre(models.Model):
     isbn = models.CharField(max_length=13, unique = True)
     genre = models.ForeignKey(
         Genre,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="livres",
     )
 
