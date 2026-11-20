@@ -1,4 +1,4 @@
-from django.db import models
+"""from django.db import models
 from django.conf import settings
 from .livre import Livre
 
@@ -17,4 +17,4 @@ class Reservation(models.Model):
     
     etat = models.CharField(max_length=50)
     date_Creation = models.DateField(auto_now_add=True)
-    date_Modification = models.DateField(auto_now=True)
+    date_Modification = models.DateField(auto_now=True)"""

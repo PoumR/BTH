@@ -1,8 +1,8 @@
 from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget
 
-from app.models.reservation import Reservation
 from users.models import Emprunteur
+from reservation.models import Reservation
 from .models.livre import Livre
 from .models.genre import Genre
 

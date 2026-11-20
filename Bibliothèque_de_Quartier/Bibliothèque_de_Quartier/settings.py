@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app',
     'users',
     'import_export',
+    'reservation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
