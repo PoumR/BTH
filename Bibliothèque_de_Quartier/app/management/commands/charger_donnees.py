@@ -1,19 +1,14 @@
 from pathlib import Path
 
 from django.apps import apps
-from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand, CommandError
 
 from django.conf import settings
-from django.db import IntegrityError, transaction
-import csv
-import os
-import pandas as pd
+from django.db import transaction
+import tablib
 
+from app.resources import get_resource_for_model
 
-# fichier = settings.DATA_DIR / "export.csv"
-donnees = ["actions","categories","objets","utilisateurs"]
-# fichier = os.path.join(settings.DATA_DIR)
 
 class Command(BaseCommand):
     help = "Importe le contenu d'un fichier csv dans la table indiqué"
@@ -36,51 +31,22 @@ class Command(BaseCommand):
 
         # print(modele)
         erreurs = []
+        fichier = options["fichier"]
 
         # On s'assure que l'insertion ne sera pas incomplète
         with transaction.atomic():
-            with open(options["fichier"], encoding="utf-8-sig", newline="") as f:
-                lecteur = csv.DictReader(f, delimiter=",")
-                print(lecteur)
+            self.stdout.write(f"Import de {modele.__name__} depuis {fichier}...")
 
-                for ligne in lecteur:
-                    print(ligne)
-                    # On reporte les valeurs nulles pour les champs qui l'acceptent
-                    for nom, valeur in ligne.items():
-                        print(f"{nom}: {valeur}")
-                        if valeur == "" and modele._meta.get_field(nom).null:
-                            ligne[nom] = None
+            # On récupère la bonne ressource
+            resource = get_resource_for_model(modele)
+            print(resource)
 
-                    # création de l'instance python
-                    objet = modele(**ligne)
-                    print(objet)
+            # On charge le CSV
+            dataset = tablib.Dataset()
+            with open(fichier,'r',encoding='utf-8') as f:
+                dataset.load(f.read(),format='csv',delimiter=',')
 
-                    try:
-                        # Conversion des attributs dans les bons types
-                        objet.full_clean()
-                    except ValidationError as exc:
-                        erreurs.append(f"Ligne {lecteur.line_num} : {exc.message_dict}")
-                        continue
+            # Import du fichier (avec levée d'erreur)
+            resultat = resource.import_data(dataset,dry_run=False,raise_errors=True)
 
-                    # Si des erreurs ont déjà été trouvées, inutile d'écrire :
-                    # tout sera annulé de toute façon.
-                    if erreurs:
-                        continue
-
-                    try:
-                        # on sauvegarde en bdd (insert ou update si l'id existe)
-                        objet.save()
-                    except IntegrityError as exc:
-                        # Contrainte refusée par la base elle-même : on arrête.
-                        raise CommandError(f"Ligne {lecteur.line_num} : {exc}") from exc
-
-            if erreurs:
-                for erreur in erreurs:
-                    self.stderr.write(erreur)
-                # Lever l'exception ici, dans le bloc atomic, annule tout.
-                raise CommandError(
-                    f"{len(erreurs)} ligne(s) invalide(s) : import annulé."
-                )
-
-        self.stdout.write(self.style.SUCCESS(f"Import réussi dans {modele.__name__}."))
-        
+            self.stdout.write(self.style.SUCCESS(f"-> {resultat.total_rows} lignes importées."))
