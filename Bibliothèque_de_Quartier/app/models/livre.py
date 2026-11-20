@@ -14,6 +14,7 @@ class Livre(models.Model):
         Genre,
         on_delete=models.PROTECT,
         related_name="livres",
+        db_column="categorie_id",
     )
 
 
