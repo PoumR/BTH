@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+div{
+    display: inline-block;
+    margin: 5px;
+}
+
+.user-card{
+    border: 1px solid black;
+    border-radius: 5px;
+}
