@@ -1,6 +1,12 @@
+import logging
+
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView
 from rich import print
+
+from .forms.inscriptionForm import InscriptionForm
 
 from .models import Emprunteur
 
@@ -22,3 +28,10 @@ class ListeUsersView(ListView):
         print(dir(query))
         return Emprunteur.objects.all()
         # return super().get_queryset()
+
+class CreateInscriptionView(CreateView):
+    model = Emprunteur
+    form_class = InscriptionForm
+    template_name = "users/inscription.html"
+    success_url = reverse_lazy("liste_emprunteur")
+    # logging.warning("Rendu: %s", form.as_table())

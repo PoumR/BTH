@@ -11,9 +11,11 @@
     <title>{% block title %}Bibliothèque de quartier{% endblock %}</title>
 </head>
 <body>
-    {% include "includes/header.html" %}
-    {% block content %}
-    {% endblock %}
-    {% include "includes/footer.html" %}
+    <div class="block_content">
+        {% include "includes/header.html" %}
+        {% block content %}
+        {% endblock %}
+        {% include "includes/footer.html" %}
+    </div>
 </body>
 </html>

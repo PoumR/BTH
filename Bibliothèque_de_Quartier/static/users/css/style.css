@@ -10,7 +10,27 @@ div{
     margin: 5px;
 }
 
+h1{
+    text-align: center;
+    display: inline-block;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;;
+}
+
+.cards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .user-card{
     border: 1px solid black;
     border-radius: 5px;
+    text-align: center;
+}
+
+#inscriptionForm table{
+    margin: auto;
 }
