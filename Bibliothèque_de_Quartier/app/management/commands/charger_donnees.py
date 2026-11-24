@@ -1,7 +1,9 @@
 from pathlib import Path
 
 from django.apps import apps
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.contrib.auth.hashers import make_password
 
 from django.db import transaction
 import tablib
@@ -47,5 +49,17 @@ class Command(BaseCommand):
 
             # Import du fichier (avec levée d'erreur)
             resultat = resource.import_data(dataset,dry_run=False,raise_errors=True)
+            
+            # if modele._meta.model_name == 'user':
+            #     hashed = make_password(settings.DEFAULT_PASSWORD)
+            #     modele.objects.filter(password='').update(password=hashed)
+
+            # === C'EST ICI QUE VOUS AJOUTEZ LE HASH ===
+            if "password" in [f.name for f in modele._meta.get_fields()]:
+                hashed = make_password(settings.DEFAULT_PASSWORD)
+                modele.objects.filter(password="").update(
+                    password=hashed,
+                    must_change_password=True
+                )
 
             self.stdout.write(self.style.SUCCESS(f"-> {resultat.total_rows} lignes importées."))

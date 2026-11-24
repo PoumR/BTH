@@ -109,10 +109,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "login"
+LOGIN_URL = "accounts/login"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
+DEFAULT_PASSWORD = os.environ.get("DEFAULT_PASSWORD", "demo1234")
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
@@ -136,7 +137,7 @@ STATICFILES_DIRS = [
     # BASE_DIR / STATIC_URL, 
 ]
 
-# STATIC_DIR = os.path.join(BASE_DIR, 'static')  
+# STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 
 # Email

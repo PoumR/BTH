@@ -1,9 +1,12 @@
 import logging
 
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
+from django.contrib.auth import views as auth_views
 from rich import print
 
 from .forms.inscriptionForm import InscriptionForm
@@ -50,3 +53,33 @@ class CreateInscriptionView(CreateView):
     template_name = "users/inscription.html"
     success_url = reverse_lazy("liste_users")
     # logging.warning("Rendu: %s", form.as_table())
+
+class InscriptionView(auth_views.LoginView):
+    template_name = 'registration/login.html'
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        user = form.get_user()
+        if user.must_change_password:
+            return HttpResponseRedirect(reverse('password_change'))
+        return super().form_valid(form)
+
+
+class PasswordChangeView(auth_views.PasswordChangeView):
+    template_name = "accounts/password_change.html"
+    success_url = reverse_lazy("password_change_done")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.request.user.must_change_password = False
+        self.request.user.save()
+        return response
+
+
+class CustomLogoutView(auth_views.LogoutView):
+    next_page = "users:login"
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, "Vous êtes déconnecté.")
+        return super().post(request, *args, **kwargs)

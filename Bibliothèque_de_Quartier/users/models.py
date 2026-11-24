@@ -13,6 +13,7 @@ class CustomUserManager(BaseUserManager):
     
 #Creation Modele Emprunteur
 class Emprunteur(AbstractUser):
+    must_change_password = models.BooleanField(default=False)
     class Roles(models.TextChoices):
         GESTIONNAIRE = "gestionnaire", "Gestionnaire"
         ADHERENT = "adhérent", "Adhérent"
@@ -30,7 +31,7 @@ class Emprunteur(AbstractUser):
     prenom = models.CharField("Prénom", max_length=150, blank=False)
     nom = models.CharField("Nom", max_length=150, blank=False)
     email = models.EmailField("adresse e-mail", unique=True)
-    password = models.CharField("mot de passe", max_length=150, default="demo1234")
+    password = models.CharField("mot de passe", max_length=150)
 
     
     role = models.CharField(

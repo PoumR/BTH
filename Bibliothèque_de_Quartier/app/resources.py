@@ -6,6 +6,8 @@ from users.models import Emprunteur
 from .models.livre import Livre
 from .models.genre import Genre
 
+from django.conf import settings
+
 class LivreResource(resources.ModelResource):
     genre = fields.Field(
         attribute='genre', 
@@ -33,10 +35,22 @@ class ReservationResource(resources.ModelResource):
         model = Reservation
         fields = ('id','emprunteur','livre','etat','date_creation','date_modification')
 
+class EmprunteurResource(resources.ModelResource):
+
+    class Meta:
+        model = Emprunteur
+        fields = ("id","prenom", "nom", "password", "email","role","numero_adherent")
+
+    def before_save_instance(self, instance, row, **kwargs):
+        # Ne hash que si c'est une création (pas une mise à jour)
+        if not instance.pk:
+            instance.set_password(settings.DEFAULT_PASSWORD)
+
 
 CUSTOM_RESOURCES = {
     Livre: LivreResource,
     Reservation: ReservationResource,
+    Emprunteur: EmprunteurResource,
 }
 
 def get_resource_for_model(model):
