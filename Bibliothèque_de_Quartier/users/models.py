@@ -21,7 +21,6 @@ class Emprunteur(AbstractUser):
     first_name = None
     last_name = None
     username = None
-    email = models.EmailField("adresse e-mail", unique=True)
 
 
     USERNAME_FIELD = "email"
@@ -30,6 +29,8 @@ class Emprunteur(AbstractUser):
     # Créer les nouveaux champs
     prenom = models.CharField("Prénom", max_length=150, blank=False)
     nom = models.CharField("Nom", max_length=150, blank=False)
+    email = models.EmailField("adresse e-mail", unique=True)
+    password = models.CharField("mot de passe", max_length=150, default="demo1234")
 
     
     role = models.CharField(

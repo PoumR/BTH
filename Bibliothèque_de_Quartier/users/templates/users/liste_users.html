@@ -1,7 +1,8 @@
 {% extends 'users/base.html' %}
 {% load static %}
 
-<!-- {% block title %}Liste des emprunteurs{% endblock %} -->
+{% block title %}{{ titre_page }}{% endblock %}
+{% block titre_page %}{{ titre_page }}{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'users/css/style.css' %}" >
