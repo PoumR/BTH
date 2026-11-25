@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Catalogue des livres{% endblock %}
+{% block css %}<link rel="stylesheet" href="{% static 'catalogue/css/style.css' %}">{% endblock %}
+{% block content %}
+<section class="page-heading"><p class="eyebrow">La collection</p><h1>Catalogue des livres</h1><p>Explorez les ouvrages, trouvez votre prochaine lecture et consultez les exemplaires disponibles.</p></section>
+<div class="filters-panel filters-split">
+  <form method="get" class="search-form" aria-label="Recherche textuelle">
+    <div class="field"><label for="recherche">Rechercher par titre, auteur ou année</label><input id="recherche" name="recherche" type="search" placeholder="Ex. : Victor Hugo, 1862..." value="{{ derniere_recherche }}"></div>
+    <input type="hidden" name="genre" value="{{ genre_selectionne }}">
+    <button type="submit">Rechercher</button>
+  </form>
+  <form method="get" class="search-form" aria-label="Filtrer par genre">
+    <div class="field"><label for="filtre-genre">Filtrer par genre</label><select id="filtre-genre" name="genre">
+      <option value="">Tous les genres</option>
+      {% for genre in genres %}
+      <option value="{{ genre.pk }}" {% if genre_selectionne == genre.pk|stringformat:'s' %}selected{% endif %}>{{ genre.nom }}</option>
+      {% endfor %}
+    </select></div>
+    <input type="hidden" name="recherche" value="{{ derniere_recherche }}">
+    <button type="submit">Filtrer</button>
+  </form>
+  <a class="btn btn-muted" href="{% url 'liste_livres' %}">Effacer les filtres</a>
+</div>
+<p class="result-count">{{ page_obj.paginator.count }} livre{{ page_obj.paginator.count|pluralize }} trouvé{{ page_obj.paginator.count|pluralize }}{% if derniere_recherche %} pour « {{ derniere_recherche }} »{% endif %}</p>
+<div class="book-grid">
+{% for livre in object_list %}
+  <article class="book-card">
+    <span class="book-category">{{ livre.genre.nom }}</span>
+    <h2><a href="{% url 'detail_livre' livre.pk %}">{{ livre.titre }}</a></h2>
+    <p class="book-author">{{ livre.auteur }} · {{ livre.annee }}</p>
+    <p class="book-summary">{{ livre.resume|truncatechars:145 }}</p>
+    <a class="book-link" href="{% url 'detail_livre' livre.pk %}">Découvrir le livre →</a>
+  </article>
+{% empty %}<p>Aucun livre ne correspond à ces critères. <a href="{% url 'liste_livres' %}">Revenir au catalogue complet</a>.</p>{% endfor %}
+</div>
+{% if is_paginated %}
+<nav class="pagination" aria-label="Pagination du catalogue">
+  {% if page_obj.has_previous %}<a href="?recherche={{ derniere_recherche|urlencode }}&genre={{ genre_selectionne|urlencode }}&page={{ page_obj.previous_page_number }}">← Précédent</a>{% endif %}
+  <span>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a href="?recherche={{ derniere_recherche|urlencode }}&genre={{ genre_selectionne|urlencode }}&page={{ page_obj.next_page_number }}">Suivant →</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

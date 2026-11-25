@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Livres à réserver{% endblock %}
+{% block content %}<section class="page-heading"><h1>Choisir un livre</h1><p>Consultez sa fiche puis demandez sa réservation.</p></section>
+<div class="book-grid">{% for livre in livres %}<article class="book-card"><h2><a href="{% url 'detail_livre' livre.pk %}">{{ livre.titre }}</a></h2><p>{{ livre.auteur }}</p><a class="book-link" href="{% url 'detail_livre' livre.pk %}">Voir le détail →</a></article>{% empty %}<p>Aucun livre.</p>{% endfor %}</div>{% endblock %}

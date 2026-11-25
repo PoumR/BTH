@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Mes demandes{% endblock %}
+{% block content %}
+<section class="page-heading"><p class="eyebrow">Mon espace</p><h1>Mes réservations</h1><p>Suivez vos demandes ou annulez une réservation encore en attente ou prête.</p></section>
+<p><a class="btn" href="{% url 'liste_livres' %}">Découvrir des livres</a></p>
+<div class="table-wrap"><table><thead><tr><th>Livre</th><th>Date</th><th>État</th><th>Action</th></tr></thead><tbody>
+{% for reservation in reservations %}<tr><td><a href="{% url 'detail_livre' reservation.livre.pk %}">{{ reservation.livre.titre }}</a></td><td>{{ reservation.date_creation|date:'d/m/Y' }}</td><td><span class="status-pill">{{ reservation.get_etat_display }}</span></td><td>
+{% if reservation.etat == 'en_attente' or reservation.etat == 'prete' %}
+<form method="post" action="{% url 'reservation:annuler_reservation' reservation.pk %}">{% csrf_token %}<button class="btn-danger" type="submit">Annuler</button></form>{% else %}—{% endif %}
+</td></tr>{% empty %}<tr><td colspan="4">Aucune réservation pour le moment.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}
