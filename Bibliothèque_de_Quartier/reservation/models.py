@@ -38,6 +38,8 @@ class Reservation(models.Model):
             self.Etat.EN_ATTENTE: [
             self.Etat.ACCEPTEE,
             self.Etat.REFUSEE,
+            self.Etat.ANNULEE
+        
             ],
             self.Etat.ACCEPTEE: [],
             self.Etat.REFUSEE: [],
