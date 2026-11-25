@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Gestion des réservations</h1>
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if reservations %}
+<table>
+  <thead>
+    <tr>
+      <th>Livre</th>
+      <th>Emprunteur</th>
+      <th>Date</th>
+      <th>État actuel</th>
+      <th>Changer l'état</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reservation in reservations %}
+    <tr>
+      <td>{{ reservation.livre.titre }}</td>
+      <td>{{ reservation.emprunteur }}</td>
+      <td>{{ reservation.date_creation|date:"d/m/Y" }}</td>
+      <td>{{ reservation.get_etat_display }}</td>
+      <td>
+        <form method="post" action="{% url 'reservation:changer_etat' reservation.id %}">
+          {% csrf_token %}
+          <select name="etat">
+            {% for valeur, libelle in reservation.Etat.choices %}
+              <option value="{{ valeur }}" {% if valeur == reservation.etat %}selected{% endif %}>
+                {{ libelle }}
+              </option>
+            {% endfor %}
+          </select>
+          <button type="submit">Valider</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+  <p>Aucune réservation pour le moment.</p>
+{% endif %}
+{% endblock %}
