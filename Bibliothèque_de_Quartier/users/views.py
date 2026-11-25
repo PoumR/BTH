@@ -13,15 +13,14 @@ from .forms.inscriptionForm import CustomPasswordChangeForm, InscriptionForm
 
 from .models import Emprunteur
 
+
 # Create your views here.
 def hello_world(request):
     context = {
         "message": "hello world !",
-        "message": "hello world !",
-        "message": "hello world !",
-        "message": "hello world !",
     }
-    return render(request=request,template_name="users/index.html",context=context)
+    return render(request=request, template_name="users/index.html", context=context)
+
 
 class ListeUsersView(ListView):
     model = Emprunteur
@@ -50,36 +49,25 @@ class ListeUsersView(ListView):
 class CreateInscriptionView(CreateView):
     model = Emprunteur
     form_class = InscriptionForm
-    template_name = "users/inscription.html"
-    success_url = reverse_lazy("login")
+    template_name = "users/auth/inscription.html"
+    success_url = reverse_lazy("connexion")
     # logging.warning("Rendu: %s", form.as_table())
+    
+    def form_valid(self, form):
+        form.instance.set_password(form.cleaned_data['password'])
+        return super().form_valid(form)
 
 class ConnexionView(auth_views.LoginView):
-    template_name = 'registration/login.html'
+    template_name = 'users/auth/login.html'
     redirect_authenticated_user = True
-    success_url = reverse_lazy('users:liste_users')
+    success_url = reverse_lazy('/')
 
     def form_valid(self, form):
         user = form.get_user()
-        if user.must_change_password:
-            return HttpResponseRedirect(reverse('password_change'))
         return super().form_valid(form)
 
-
-class PasswordChangeView(auth_views.PasswordChangeView):
-    template_name = "registration/password_change.html"
-    form_class = CustomPasswordChangeForm
-    success_url = reverse_lazy("password_change_done")
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        self.request.user.must_change_password = False
-        self.request.user.save()
-        return response
-
-
 class CustomLogoutView(auth_views.LogoutView):
-    next_page = "users:login"
+    next_page = "users:connexion"
 
     def post(self, request, *args, **kwargs):
         messages.success(request, "Vous êtes déconnecté.")
