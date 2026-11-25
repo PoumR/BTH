@@ -1,0 +1,4 @@
+/* Styles locaux à l'espace utilisateurs, sans affecter le catalogue. */
+.auth-page .field input { width: 100%; }
+.auth-page .errorlist { margin-top: 4px; }
+.auth-page h1 { text-align: left; }

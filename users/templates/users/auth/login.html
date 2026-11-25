@@ -1,0 +1,11 @@
+{% extends "users/base.html" %}
+{% block titre_page %}Connexion{% endblock %}
+{% block user_content %}
+<form method="post" class="auth-form">{% csrf_token %}
+{{ form.non_field_errors }}
+{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>{% endfor %}
+<button type="submit">Se connecter</button>
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+<p>Pas encore de compte ? <a href="{% url 'users:inscription' %}">S'inscrire</a></p>
+{% endblock %}
