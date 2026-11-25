@@ -3,9 +3,12 @@ from .views import CreateInscriptionView, ListeUsersView
 from . import views
 from django.contrib.auth import views as auth_views
 
+
+app_name = "users"
+
 urlpatterns = [
     # --- Auth ---
-    path("login/", views.InscriptionView.as_view(), name="login"),
+    path("login/", views.ConnexionView.as_view(), name="login"),
     path("logout/", views.CustomLogoutView.as_view(), name="logout"),
     # --- Changement de mot de passe (utilisé par votre flag must_change_password) ---
     path(

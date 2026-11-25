@@ -110,8 +110,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = "accounts/login"
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "users:liste_users"
+LOGOUT_REDIRECT_URL = "users:liste_users"
 
 DEFAULT_PASSWORD = os.environ.get("DEFAULT_PASSWORD", "demo1234")
 

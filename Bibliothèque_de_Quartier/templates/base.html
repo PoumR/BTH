@@ -13,6 +13,13 @@
 <body>
     <div class="block_content">
         {% include "includes/header.html" %}
+        
+        {% if user.is_authenticated %}
+        <form class="deco" action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Deconnexion</button>
+        {% endif %}
+        </form>
         {% block content %}
         {% endblock %}
         {% include "includes/footer.html" %}

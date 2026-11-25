@@ -3,7 +3,7 @@
 
 {% block user_content %}
     <h2>Créer un nouvel utilisateur</h2>
-    <form method="post" id="inscriptionForm">
+    <form method="post" id="inscriptionForm" class="customForm">
         {% csrf_token %}
         <table>
             {{ form.as_table }}

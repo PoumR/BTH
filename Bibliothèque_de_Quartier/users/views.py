@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth import views as auth_views
 from rich import print
 
-from .forms.inscriptionForm import InscriptionForm
+from .forms.inscriptionForm import CustomPasswordChangeForm, InscriptionForm
 
 from .models import Emprunteur
 
@@ -51,13 +51,13 @@ class CreateInscriptionView(CreateView):
     model = Emprunteur
     form_class = InscriptionForm
     template_name = "users/inscription.html"
-    success_url = reverse_lazy("liste_users")
+    success_url = reverse_lazy("login")
     # logging.warning("Rendu: %s", form.as_table())
 
-class InscriptionView(auth_views.LoginView):
+class ConnexionView(auth_views.LoginView):
     template_name = 'registration/login.html'
     redirect_authenticated_user = True
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy('users:liste_users')
 
     def form_valid(self, form):
         user = form.get_user()
@@ -67,7 +67,8 @@ class InscriptionView(auth_views.LoginView):
 
 
 class PasswordChangeView(auth_views.PasswordChangeView):
-    template_name = "accounts/password_change.html"
+    template_name = "registration/password_change.html"
+    form_class = CustomPasswordChangeForm
     success_url = reverse_lazy("password_change_done")
 
     def form_valid(self, form):

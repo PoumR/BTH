@@ -31,6 +31,11 @@ h1{
     text-align: center;
 }
 
-#inscriptionForm table{
+.customForm table{
     margin: auto;
+    text-align: center;
+}
+
+.deco{
+    display: inline-block;
 }

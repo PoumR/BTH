@@ -2,10 +2,12 @@
 {% load static %}
 
 
-{% block content %}
-<form method="post">
+{% block user_content %}
+<form method="post" id="loginForm" class="customForm">
     {% csrf_token %}
-    {{ form.as_p }}
+    <table>
+        {{ form.as_table }}
+    </table>
     <button type="submit">Se connecter</button>
 </form>
 {% endblock %}

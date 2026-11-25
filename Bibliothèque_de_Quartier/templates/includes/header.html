@@ -1,10 +1,10 @@
 <header>
     <nav>
         <ul>
-            <li><a href="{% url 'hello_world' %}">Accueil</a></li>
-            <li><a href="{% url 'liste_users' %}">Users</a></li>
-            <li><a href="{% url 'creer_users' %}">Inscriptions</a></li>
-            <li><a href="{% url 'login' %}">Connexion</a></li>
+            <li><a href="{% url 'users:hello_world' %}">Accueil</a></li>
+            <li><a href="{% url 'users:liste_users' %}">Users</a></li>
+            <li><a href="{% url 'users:creer_users' %}">Inscriptions</a></li>
+            <li><a href="{% url 'users:login' %}">Connexion</a></li>
         </ul>
     </nav>
 </header>
