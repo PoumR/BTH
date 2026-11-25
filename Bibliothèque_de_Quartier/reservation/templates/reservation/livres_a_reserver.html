@@ -1,0 +1,32 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+    Réserver un livre
+{% endblock %}
+
+{% block content %}
+
+    <h2>Choisir un livre à réserver</h2>
+
+    {% for livre in livres %}
+
+        <div>
+            <p>{{ livre.titre }}</p>
+
+            <form
+                method="POST"
+                action="{% url 'reservation:reserver_livre' livre.id %}"
+            >
+                {% csrf_token %}
+                <button type="submit">Réserver</button>
+            </form>
+        </div>
+
+    {% empty %}
+
+        <p>Aucun livre disponible.</p>
+
+    {% endfor %}
+
+{% endblock %}
