@@ -1,0 +1,39 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block title %}{{ titre_page }}{% endblock %}
+{% block titre_page %}{{ titre_page }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/style.css' %}" >
+{% endblock %}
+
+{% block user_content %}
+{% if user.is_authenticated %}
+    {% if user.role == "gestionnaire" %}
+        <h3>Hi {{ user.nom }} {{ user.prenom }}!</h3>
+        <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+        </form>
+        <div class="cards">
+        {% for user in emprunteurs %}
+            <div class="user-card">
+                <p>{{ user.prenom }} {{ user.nom }}<br></p>
+                <p>{{ user.email }}<br></p>
+                <p>{{ user.role }} {{ user.numero_adherent }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <h3>Hi {{ user.nom }} {{ user.prenom }}!</h3>
+        <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+        </form>
+    {% endif %}
+{% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock %}

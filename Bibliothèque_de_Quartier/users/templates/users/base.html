@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Espace emprunteurs{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'users/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>{% block titre_page %}Espace Emprunteurs{% endblock %}</h1>
+{% block user_content %}
+{% endblock %}
+{% endblock %}

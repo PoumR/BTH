@@ -90,9 +90,9 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'users.Emprunteur'
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
+AUTH_USER_MODEL = 'users.Emprunteur'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -109,6 +109,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "accounts/login"
+LOGIN_REDIRECT_URL = "users:liste_users"
+LOGOUT_REDIRECT_URL = "users:liste_users"
+
+DEFAULT_PASSWORD = os.environ.get("DEFAULT_PASSWORD", "demo1234")
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
@@ -132,7 +137,7 @@ STATICFILES_DIRS = [
     # BASE_DIR / STATIC_URL, 
 ]
 
-# STATIC_DIR = os.path.join(BASE_DIR, 'static')  
+# STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 
 # Email

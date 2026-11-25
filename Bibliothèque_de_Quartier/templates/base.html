@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,18 @@
     <title>{% block title %}Bibliothèque de quartier{% endblock %}</title>
 </head>
 <body>
-    {% include "includes/header.html" %}
-    {% block content %}
-    {% endblock %}
-    {% include "includes/footer.html" %}
+    <div class="block_content">
+        {% include "includes/header.html" %}
+        
+        {% if user.is_authenticated %}
+        <form class="deco" action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Deconnexion</button>
+        {% endif %}
+        </form>
+        {% block content %}
+        {% endblock %}
+        {% include "includes/footer.html" %}
+    </div>
 </body>
 </html>

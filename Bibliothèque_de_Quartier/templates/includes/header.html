@@ -1,8 +1,9 @@
 <header>
     <nav>
         <ul>
-            <li><a href="{% url 'hello_world' %}">Accueil</a></li>
-            <li><a href="{% url 'liste_users' %}">Users</a></li>
+            <li><a href="{% url 'users:accueil' %}">Accueil</a></li>
+            <li><a href="{% url 'users:inscription' %}">Inscriptions</a></li>
+            <li><a href="{% url 'users:connexion' %}">Connexion</a></li>
         </ul>
     </nav>
 </header>

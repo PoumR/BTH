@@ -2,12 +2,13 @@ from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget
 
 from app.models.reservation import Reservation
-from .models.emprunteur import Emprunteur
+from users.models import Emprunteur
 from .models.livre import Livre
 from .models.genre import Genre
 
+from django.conf import settings
+
 class LivreResource(resources.ModelResource):
-    # Mapping uniquement pour 'prenom' qui s'appelle 'First_Name' dans le CSV
     genre = fields.Field(
         attribute='genre', 
         column_name='categorie_id',
@@ -19,7 +20,6 @@ class LivreResource(resources.ModelResource):
         fields = ('id','titre','auteur','annee','genre','resume','exemplaires','isbn')
 
 class ReservationResource(resources.ModelResource):
-    # Mapping uniquement pour 'prenom' qui s'appelle 'First_Name' dans le CSV
     emprunteur = fields.Field(
         attribute='emprunteur', 
         column_name='utilisateur_id',
@@ -35,10 +35,22 @@ class ReservationResource(resources.ModelResource):
         model = Reservation
         fields = ('id','emprunteur','livre','etat','date_creation','date_modification')
 
+class EmprunteurResource(resources.ModelResource):
+
+    class Meta:
+        model = Emprunteur
+        fields = ("id","prenom", "nom", "password", "email","role","numero_adherent")
+
+    def before_save_instance(self, instance, row, **kwargs):
+        # Ne hash que si c'est une création (pas une mise à jour)
+        if not instance.pk:
+            instance.set_password(settings.DEFAULT_PASSWORD)
+
 
 CUSTOM_RESOURCES = {
     Livre: LivreResource,
     Reservation: ReservationResource,
+    Emprunteur: EmprunteurResource,
 }
 
 def get_resource_for_model(model):
