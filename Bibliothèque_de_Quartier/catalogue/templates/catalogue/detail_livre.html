@@ -2,6 +2,9 @@
 {% block title %}{{ livre.titre }}{% endblock %}
 {% block content %}
 <p><a href="{% url 'catalogue:liste_livres' %}">← Retour au catalogue</a></p>
+{% if confirmation %}
+  <p>{{ confirmation }}</p>
+{% endif %}
 <article class="detail-card">
   <p class="eyebrow">{{ livre.genre.nom }}</p>
   <h1>{{ livre.titre }}</h1>
@@ -10,11 +13,16 @@
   <p><strong>Nombre total d'exemplaires : {{ livre.exemplaires }}</strong></p>
   <p class="availability">{{ exemplaires_disponibles }} exemplaire{{ exemplaires_disponibles|pluralize }} disponible{{ exemplaires_disponibles|pluralize }}</p>
   {% if user.is_authenticated %}
-    {% if exemplaires_disponibles %}
-    <form method="post" action="{% url 'catalogue:demande_livre' livre.pk %}">{% csrf_token %}<button type="submit">Demander ce livre</button></form>
-    {% else %}<p>Ce titre ne possède plus d'exemplaire disponible pour le moment.</p>{% endif %}
+    {% if exemplaires_disponibles%}
+      <form method="post" action="{% url 'catalogue:demande_livre' livre.pk %}">
+        {% csrf_token %}
+        <button type="submit">Demander ce livre</button>
+      </form>
+    {% else %}
+      <p>Ce titre ne possède plus d'exemplaire disponible pour le moment.</p>
+    {% endif %}
   {% else %}
-    <p>Pour réserver ce livre, <a href="{% url 'users:connexion' %}?next={{ request.path|urlencode }}">connectez-vous</a>.</p>
+      <p>Pour réserver ce livre, <a href="{% url 'users:connexion' %}?next={{ request.path|urlencode }}">connectez-vous</a>.</p>
   {% endif %}
 </article>
 {% endblock %}

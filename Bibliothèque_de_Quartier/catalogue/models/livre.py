@@ -17,6 +17,7 @@ class Livre(models.Model):
         db_column="categorie_id",
     )
 
-
+    def __str__(self):
+        return f"{self.titre} - {self.auteur} - {self.annee}"
 
 

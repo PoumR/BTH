@@ -4,6 +4,9 @@
             <span class="logo-mark">B.</span>
             <span>Bibliothèque <small>de quartier</small></span>
         </a>
+        {% if user.is_authenticated %}
+        <div>{{ user.nom}} {{ user.prenom }}</div>
+        {% endif %}
         <nav aria-label="Navigation principale" class="main-nav">
             <a href="{% url 'accueil' %}">Accueil</a>
             <a href="{% url 'catalogue:liste_livres' %}">Catalogue</a>

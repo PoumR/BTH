@@ -49,6 +49,10 @@ class LivreDetailView(DetailView):
     def get_context_data(self, **kwargs):
         from reservation.models import Reservation
         context = super().get_context_data(**kwargs)
-        actifs = Reservation.objects.filter(livre=self.object, etat__in=Reservation.Etat).count()
+        actifs = Reservation.objects.filter(livre=self.object, etat__in=[Reservation.Etat.ACCEPTEE,Reservation.Etat.EN_ATTENTE]).count()
         context["exemplaires_disponibles"] = max(self.object.exemplaires - actifs, 0)
+        if actifs < 3:
+            context["confirmation"] = f"Votre demande de réservation de '{self.object}' est maintenant en attente"
+        else:
+            context["confirmation"] = f"Vous ne pouvez faire plus de 3 emprunts à la fois. Retournez un livre pour pouvoir emprunter"
         return context

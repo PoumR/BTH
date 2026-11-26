@@ -26,7 +26,7 @@ class Reservation(models.Model):
     etat = models.CharField( max_length = 20, choices = Etat.choices, default = Etat.EN_ATTENTE)
 
     date_creation = models.DateField(default=date.today)
-    date_modification = models.DateField(auto_now = True)
+    date_modification = models.DateField(default=date.today)
 
 
     @property
@@ -53,3 +53,6 @@ class Reservation(models.Model):
 
         self.etat = nouvel_etat 
         self.save()
+
+    def __str__(self):
+        return f"{self.date_creation}: {self.emprunteur} - {self.livre}"
