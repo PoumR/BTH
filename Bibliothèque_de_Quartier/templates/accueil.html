@@ -18,10 +18,10 @@
     <div class="book-grid">
         {% for livre in livres %}
         <article class="book-card"><span class="book-category">{{ livre.genre.nom }}</span>
-            <h3><a href="{% url 'detail_livre' livre.pk %}">{{ livre.titre }}</a></h3>
+            <h3><a href="{% url 'catalogue:detail_livre' livre.pk %}">{{ livre.titre }}</a></h3>
             <p class="book-author">{{ livre.auteur }}</p>
             <p class="book-summary">{{ livre.resume|truncatechars:115 }}</p>
-            <a class="book-link" href="{% url 'detail_livre' livre.pk %}">En savoir plus →</a>
+            <a class="book-link" href="{% url 'catalogue:detail_livre' livre.pk %}">En savoir plus →</a>
         </article>{% empty %}
         <p>Les ouvrages seront bientôt disponibles.</p>
         {% endfor %}

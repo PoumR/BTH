@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from django.conf import settings
 from catalogue.models.livre import Livre
@@ -23,7 +25,7 @@ class Reservation(models.Model):
     
     etat = models.CharField( max_length = 20, choices = Etat.choices, default = Etat.EN_ATTENTE)
 
-    date_creation = models.DateField(auto_now_add = True)
+    date_creation = models.DateField(default=date.today)
     date_modification = models.DateField(auto_now = True)
 
 

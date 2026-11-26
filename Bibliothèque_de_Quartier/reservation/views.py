@@ -39,8 +39,8 @@ class LivresAReserverView(LoginRequiredMixin, ListView):
 class ReserverLivreView(LoginRequiredMixin, View):
     http_method_names = ["post"]  # GET -> 405, comme ton "if request.method == POST"
 
-    def post(self, request, livre_id):
-        livre = get_object_or_404(Livre, id=livre_id)
+    def post(self, request, pk):
+        livre = get_object_or_404(Livre, id=pk)
 
         reservation_existante = Reservation.objects.filter(
             emprunteur=request.user,
@@ -51,14 +51,24 @@ class ReserverLivreView(LoginRequiredMixin, View):
             ],
         ).exists()
 
-        if not reservation_existante:
+        nombre_reservation = Reservation.objects.filter(
+            emprunteur=request.user,
+            etat__in=[
+                Reservation.Etat.EN_ATTENTE,
+                Reservation.Etat.ACCEPTEE,
+            ],
+        ).count()
+
+        print(nombre_reservation)
+
+        if not reservation_existante and nombre_reservation < 3:
             Reservation.objects.create(
                 emprunteur=request.user,
                 livre=livre,
                 etat=Reservation.Etat.EN_ATTENTE,
             )
 
-        return redirect("reservation:livres_a_reserver")
+        return redirect(f"catalogue:detail_livre",pk)
 
 
 class AnnulerReservationView(LoginRequiredMixin, View):

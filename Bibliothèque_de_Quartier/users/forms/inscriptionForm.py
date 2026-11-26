@@ -16,12 +16,9 @@ class InscriptionForm(forms.ModelForm):
             "numero_adherent": forms.TextInput(attrs={"class": "form-control"}),
         }
 
-class CustomPasswordChangeForm(PasswordChangeForm):
-    class Meta:
-        model = Emprunteur
-        fields = ["password","new_password"]
-
-        widgets = {
-            "password": forms.PasswordInput(attrs={"class": "form-control"}),
-            "new_password": forms.PasswordInput(attrs={"class": "form-control"}),
+        error_messages = {
+            'email': {
+                'unique': "Cet email est déjà utilisé.",
+            },
         }
+

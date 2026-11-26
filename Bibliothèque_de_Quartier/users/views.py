@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth import views as auth_views
 # from rich import print
 
-from .forms.inscriptionForm import CustomPasswordChangeForm, InscriptionForm
+from .forms.inscriptionForm import InscriptionForm
 
 from .models import Emprunteur
 

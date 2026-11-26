@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password
 from django.db import transaction
 import tablib
 
-from Bibliothèque_de_Quartier.Bibliothèque_de_Quartier.resources import get_resource_for_model
+from Bibliothèque_de_Quartier.resources import get_resource_for_model
 
 
 class Command(BaseCommand):

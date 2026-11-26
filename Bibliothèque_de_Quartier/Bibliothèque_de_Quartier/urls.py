@@ -13,7 +13,7 @@ urlpatterns = [
     path("", AccueilView.as_view(), name="accueil"),
     path("users/", include("users.urls"),name="users"),
     path("accounts/", include("django.contrib.auth.urls")),
-    path('caalogue/', include('catalogue.urls')),
+    path('catalogue/', include('catalogue.urls')),
     path('reservation/', include('reservation.urls')),
     path("connexion/", ConnexionView.as_view(), name="connexion"),
     path("deconnexion/", CustomLogoutView.as_view(), name="deconnexion"),

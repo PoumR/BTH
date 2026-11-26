@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ livre.titre }}{% endblock %}
 {% block content %}
-<p><a href="{% url 'liste_livres' %}">← Retour au catalogue</a></p>
+<p><a href="{% url 'catalogue:liste_livres' %}">← Retour au catalogue</a></p>
 <article class="detail-card">
   <p class="eyebrow">{{ livre.genre.nom }}</p>
   <h1>{{ livre.titre }}</h1>
@@ -11,7 +11,7 @@
   <p class="availability">{{ exemplaires_disponibles }} exemplaire{{ exemplaires_disponibles|pluralize }} disponible{{ exemplaires_disponibles|pluralize }}</p>
   {% if user.is_authenticated %}
     {% if exemplaires_disponibles %}
-    <form method="post" action="{% url 'demande_livre' livre.pk %}">{% csrf_token %}<button type="submit">Demander ce livre</button></form>
+    <form method="post" action="{% url 'catalogue:demande_livre' livre.pk %}">{% csrf_token %}<button type="submit">Demander ce livre</button></form>
     {% else %}<p>Ce titre ne possède plus d'exemplaire disponible pour le moment.</p>{% endif %}
   {% else %}
     <p>Pour réserver ce livre, <a href="{% url 'users:connexion' %}?next={{ request.path|urlencode }}">connectez-vous</a>.</p>
