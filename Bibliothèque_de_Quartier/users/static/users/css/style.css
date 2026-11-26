@@ -1,41 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-div{
-    display: inline-block;
-    margin: 5px;
-}
-
-h1{
-    text-align: center;
-    display: inline-block;
-    margin: auto;
-    margin-top: 15px;
-    margin-bottom: 15px;;
-}
-
-.cards{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.user-card{
-    border: 1px solid black;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.customForm table{
-    margin: auto;
-    text-align: center;
-}
-
-.deco{
-    display: inline-block;
-}
+/* Styles locaux à l'espace utilisateurs, sans affecter le catalogue. */
+.auth-page .field input { width: 100%; }
+.auth-page .errorlist { margin-top: 4px; }
+.auth-page h1 { text-align: left; }

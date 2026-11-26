@@ -3,8 +3,8 @@ from import_export.widgets import ForeignKeyWidget
 
 from users.models import Emprunteur
 from reservation.models import Reservation
-from .models.livre import Livre
-from .models.genre import Genre
+from catalogue.models.livre import Livre
+from catalogue.models.genre import Genre
 
 from django.conf import settings
 

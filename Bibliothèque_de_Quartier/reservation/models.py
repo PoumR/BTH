@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from app.models.livre import Livre
+from catalogue.models.livre import Livre
 
 # Creation Modele Reservation
 class Reservation(models.Model):

@@ -38,8 +38,9 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
-    'app',
-    #'emprunteur',
+    # 'app',
+    'users',
+    'catalogue',
     'import_export',
     'reservation',
     'django.contrib.admin',
@@ -87,7 +88,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.getenv('DATABASE_NAME', os.path.join(BASE_DIR, 'db.sqlite3')),
-        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -110,9 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = "accounts/login"
-LOGIN_REDIRECT_URL = "users:liste_users"
-LOGOUT_REDIRECT_URL = "users:liste_users"
+LOGIN_URL = "connexion"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 DEFAULT_PASSWORD = os.environ.get("DEFAULT_PASSWORD", "demo1234")
 

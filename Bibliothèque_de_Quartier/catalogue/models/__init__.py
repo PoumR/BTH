@@ -1,4 +1,4 @@
-# app/models/__init__.py
+# catalogue/models/__init__.py
 from .genre import Genre
 from .livre import Livre
   

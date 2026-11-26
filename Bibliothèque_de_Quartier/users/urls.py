@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateInscriptionView, ListeUsersView
+from .views import AccueilUsersView, CreateInscriptionView, ListeUsersView
 from . import views
 from django.contrib.auth import views as auth_views
 
@@ -7,7 +7,7 @@ from django.contrib.auth import views as auth_views
 app_name = "users"
 
 urlpatterns = [
-    path("accueil", views.hello_world, name="accueil"),
+    path("", AccueilUsersView.as_view(), name="accueil"),
     # path("gestion", ListeUsersView.as_view(), name="liste_users"),
     # --- Auth ---
     # =========================================================================

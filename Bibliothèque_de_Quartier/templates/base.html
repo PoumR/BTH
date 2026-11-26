@@ -13,15 +13,11 @@
 <body>
     <div class="block_content">
         {% include "includes/header.html" %}
-        
-        {% if user.is_authenticated %}
-        <form class="deco" action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Deconnexion</button>
-        {% endif %}
-        </form>
-        {% block content %}
-        {% endblock %}
+        <main class="site-main">
+            {% if messages %}<div class="messages" aria-live="polite">{% for message in messages %}<div
+                    class="message message-{{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+            {% block content %}{% endblock %}
+        </main>
         {% include "includes/footer.html" %}
     </div>
 </body>

@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
 
-from app.models.livre import Livre
+from catalogue.models.livre import Livre
 from reservation.models import Reservation
 
 

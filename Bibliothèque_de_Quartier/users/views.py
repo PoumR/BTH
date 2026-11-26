@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView
 from django.contrib.auth import views as auth_views
-from rich import print
+# from rich import print
 
 from .forms.inscriptionForm import CustomPasswordChangeForm, InscriptionForm
 
@@ -15,17 +15,18 @@ from .models import Emprunteur
 
 
 # Create your views here.
-def hello_world(request):
-    context = {
-        "message": "hello world !",
-    }
-    return render(request=request, template_name="users/index.html", context=context)
-
-
+class AccueilUsersView(TemplateView):
+    template_name = "users/index.html"
+    
 class ListeUsersView(ListView):
     model = Emprunteur
     template_name = 'users/liste_users.html'
     context_object_name = "emprunteurs"
+
+    
+    def test_func(self):
+        u = self.request.user
+        return u.is_staff or u.is_superuser or u.role == Emprunteur.Roles.GESTIONNAIRE
 
     def get_context_data(self, **kwargs):
         # 1. Récupère le contexte de base de la ListView
@@ -33,8 +34,6 @@ class ListeUsersView(ListView):
         
         # 2. Ajoute les données supplémentaires au dictionnaire
         context['titre_page'] = "Tous nos utilisateurs"
-        # context['categories'] = Categorie.objects.all()
-        # context['total_articles'] = Article.objects.count()
         
         # 3. Retourne le contexte mis à jour
         return context
@@ -51,7 +50,6 @@ class CreateInscriptionView(CreateView):
     form_class = InscriptionForm
     template_name = "users/auth/inscription.html"
     success_url = reverse_lazy("connexion")
-    # logging.warning("Rendu: %s", form.as_table())
     
     def form_valid(self, form):
         form.instance.set_password(form.cleaned_data['password'])
